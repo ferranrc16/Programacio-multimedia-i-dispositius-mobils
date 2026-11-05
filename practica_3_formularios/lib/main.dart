@@ -8,11 +8,10 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'M0489 - Apps - Form (A)',
+      title: 'Actividad 3 - Form C',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
@@ -22,10 +21,16 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   MyHomePage({super.key});
-  final String title = 'Salesians Sarrià 25/26';
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
   final _formKey = GlobalKey<FormBuilderState>();
+  final String title = 'Ferran Ribera 26/27';
 
   @override
   Widget build(BuildContext context) {
@@ -35,193 +40,98 @@ class MyHomePage extends StatelessWidget {
         title: Text(title),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const FormTitle(),
-            FormBuilder(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //-------------------------------------------------
-                    FormLabelGroup(
-                      title: 'Please provide the speed of vehicle?',
-                      subtitle: 'please select one option given below',
-                    ),
-                    FormBuilderRadioGroup(
-                      decoration:
-                          const InputDecoration(border: InputBorder.none),
-                      name: "speed",
-                      orientation: OptionsOrientation.vertical,
-                      // separator: const Padding(padding: EdgeInsets.all(20)),
-                      options: const [
-                        FormBuilderFieldOption(value: 'above 40km/h'),
-                        FormBuilderFieldOption(value: 'below 40km/h'),
-                        FormBuilderFieldOption(value: '0km/h')
-                      ],
-                      onChanged: (String? value) {
-                        debugPrint(value);
-                      },
-                    ),
-                    //-------------------------------------------------
-                    FormLabelGroup(title: 'Enter remarks'),
-                    FormBuilderTextField(
-                      name: 'remark',
-                      decoration: InputDecoration(
-                        hintText: 'Enter your remarks',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(
-                            width: 0,
-                            style: BorderStyle.none,
-                          ),
-                        ),
-                        filled: true,
-                      ),
-                      onChanged: (String? value) {
-                        debugPrint(value);
-                      },
-                    ),
-                    //-------------------------------------------------
-                    FormLabelGroup(
-                      title: 'Please provide the high speed of vehicle?',
-                      subtitle: 'please select one option given below',
-                    ),
-                    FormBuilderDropdown(
-                      name: 'highspeed',
-                      decoration: InputDecoration(
-                        hintText: 'Select option',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                      items: const [
-                        DropdownMenuItem(value: 'high', child: Text('High')),
-                        DropdownMenuItem(
-                            value: 'medium', child: Text('Medium')),
-                        DropdownMenuItem(value: 'low', child: Text('Low')),
-                      ],
-                      onChanged: (String? value) {
-                        debugPrint(value);
-                      },
-                    ),
-                    //-------------------------------------------------
-                    FormLabelGroup(
-                      title: 'Please provide the speed of vehicle past 1 hour?',
-                      subtitle: 'please select one or more options given below',
-                    ),
-                    FormBuilderCheckboxGroup(
-                      decoration:
-                          const InputDecoration(border: InputBorder.none),
-                      name: "selectSpeed",
-                      orientation: OptionsOrientation.vertical,
-                      // separator: const Padding(padding: EdgeInsets.all(20)),
-                      options: const [
-                        FormBuilderFieldOption(value: '20km/h'),
-                        FormBuilderFieldOption(value: '30km/h'),
-                        FormBuilderFieldOption(value: '40km/h'),
-                        FormBuilderFieldOption(value: '50km/h'),
-                      ],
-                      onChanged: (List<String>? value) {
-                        debugPrint(value.toString());
-                      },
-                    ),
-                  ],
+        padding: const EdgeInsets.all(16.0),
+        child: FormBuilder(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FormBuilderChoiceChip<String>(
+                name: 'choice_chips',
+                decoration: const InputDecoration(
+                  labelText: 'Choice Chips',
+                  border: InputBorder.none,
                 ),
+                options: const [
+                  FormBuilderChipOption(value: 'Flutter'),
+                  FormBuilderChipOption(value: 'Android'),
+                  FormBuilderChipOption(value: 'Chrome OS'),
+                ],
               ),
-            ),
-          ],
+              const SizedBox(height: 16),
+
+              FormBuilderSwitch(
+                name: 'switch',
+                title: const Text('This is a switch'),
+                initialValue: true,
+                decoration: const InputDecoration(border: InputBorder.none),
+              ),
+              const SizedBox(height: 16),
+
+              FormBuilderTextField(
+                name: 'text_field',
+                decoration: const InputDecoration(
+                  labelText: 'Text Field',
+                  helperText: 'Value must have a length less than or ...',
+                ),
+                maxLength: 15,
+              ),
+              const SizedBox(height: 16),
+
+              FormBuilderDropdown<String>(
+                name: 'dropdown',
+                decoration: const InputDecoration(
+                  labelText: 'Dropdown Field',
+                ),
+                items: ['HTML', 'CSS', 'React', 'Dart', 'TypeScript', 'Angular']
+                    .map((lang) => DropdownMenuItem(
+                          value: lang,
+                          child: Text(lang),
+                        ))
+                    .toList(),
+              ),
+              const SizedBox(height: 16),
+
+              FormBuilderRadioGroup<String>(
+                name: 'radio_group',
+                decoration: const InputDecoration(
+                  labelText: 'Radio Group Model',
+                  border: InputBorder.none,
+                ),
+                orientation: OptionsOrientation.vertical,
+                options: const [
+                  FormBuilderFieldOption(value: 'Option 1'),
+                  FormBuilderFieldOption(value: 'Option 2'),
+                  FormBuilderFieldOption(value: 'Option 3'),
+                  FormBuilderFieldOption(value: 'Option 4'),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.upload),
-          onPressed: () {
-            _formKey.currentState?.saveAndValidate();
-            String? formString = _formKey.currentState?.value.toString();
-            alertDialog(context, formString!);
-          }),
-    );
-  }
-}
-
-// ignore: must_be_immutable
-class FormLabelGroup extends StatelessWidget {
-  FormLabelGroup({super.key, required this.title, this.subtitle});
-
-  String title;
-  String? subtitle;
-
-  Widget conditionalSubtitle(BuildContext context) {
-    if (subtitle != null) {
-      return Text(subtitle!,
-          style: Theme.of(context).textTheme.labelLarge?.apply(
-              fontSizeFactor: 1.25,
-              // ignore: deprecated_member_use
-              color: Theme.of(context).colorScheme.secondary.withOpacity(0.5)));
-    } else {
-      return Container();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title,
-              style: Theme.of(context)
-                  .textTheme
-                  .labelLarge
-                  ?.apply(fontSizeFactor: 1.25)),
-          conditionalSubtitle(context)
-        ],
+        onPressed: () {
+          _formKey.currentState?.saveAndValidate();
+          String? formString = _formKey.currentState?.value.toString();
+          
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Submission Completed'),
+              icon: const Icon(Icons.check_circle),
+              content: Text(formString ?? ''),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Tancar'),
+                )
+              ],
+            ),
+          );
+        },
+        child: const Icon(Icons.check),
       ),
     );
   }
-}
-
-class FormTitle extends StatelessWidget {
-  const FormTitle({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          Text(
-            'Form title',
-            style: Theme.of(context)
-                .textTheme
-                .displaySmall
-                ?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          Text('description', style: Theme.of(context).textTheme.labelLarge),
-        ],
-      ),
-    );
-  }
-}
-
-void alertDialog(BuildContext context, String contentText) {
-  showDialog<String>(
-    context: context,
-    builder: (BuildContext context) => AlertDialog(
-      title: const Text("Submission Completed"),
-      icon: const Icon(Icons.check_circle),
-      content: Text(contentText),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.pop(context, 'Tancar'),
-          child: const Text('Tancar'),
-        ),
-      ],
-    ),
-  );
 }
